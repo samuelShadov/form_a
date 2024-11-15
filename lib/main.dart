@@ -1,73 +1,111 @@
+import 'package:example/sources/pageA.dart';
+import 'package:example/sources/pageB.dart';
+import 'package:example/sources/pageC.dart';
+import 'package:example/sources/pageD.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
-void main() => runApp(FormApp());
+import 'code_page.dart';
 
-class FormApp extends StatelessWidget {
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FormA(),
+    return const MaterialApp(
+      title: 'Flutter FormBuilder Demo',
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        FormBuilderLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: FormBuilderLocalizations.supportedLocales,
+      home: _HomePage(),
     );
   }
 }
 
-class FormA extends StatefulWidget {
-  @override
-  _FormAState createState() => _FormAState();
-}
-
-class _FormAState extends State<FormA> {
-  final _formKey = GlobalKey<FormBuilderState>();
+class _HomePage extends StatelessWidget {
+  const _HomePage();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Formulario A")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FormBuilder(
-          key: _formKey,
-          child: Column(
-            children: [
-              FormBuilderTextField(
-                name: 'nombre',
-                decoration: InputDecoration(labelText: 'Nombre'),
-              ),
-              FormBuilderRadioGroup(
-                name: 'sexo',
-                decoration: InputDecoration(labelText: 'Sexo'),
-                options: ['Masculino', 'Femenino']
-                    .map((sexo) => FormBuilderFieldOption(value: sexo))
-                    .toList(),
-              ),
-              FormBuilderCheckboxGroup(
-                name: 'intereses',
-                decoration: InputDecoration(labelText: 'Intereses'),
-                options: ['Música', 'Deportes', 'Lectura']
-                    .map((interes) => FormBuilderFieldOption(value: interes))
-                    .toList(),
-              ),
-              FormBuilderDropdown(
-                name: 'pais',
-                decoration: InputDecoration(labelText: 'País'),
-                items: ['España', 'Francia', 'Alemania']
-                    .map((pais) => DropdownMenuItem(value: pais, child: Text(pais)))
-                    .toList(),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.saveAndValidate() ?? false) {
-                    print(_formKey.currentState?.value);
-                  } else {
-                    print("Validación fallida");
-                  }
-                },
-                child: Text("Enviar"),
-              ),
-            ],
+    return CodePage(
+      title: 'Flutter Form Builder',
+      child: ListView(
+        children: <Widget>[
+          ListTile(
+            title: const Text('PageA'),
+            trailing: const Icon(Icons.arrow_right_sharp),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const CodePage(
+                      title: 'PageA',
+                      child: PageA(),
+                    );
+                  },
+                ),
+              );
+            },
           ),
-        ),
+          const Divider(),
+          ListTile(
+            title: const Text('Form B'),
+            trailing: const Icon(Icons.arrow_right_sharp),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const CodePage(
+                      title: 'Form B',
+                      child: PageB(),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('PageC'),
+            trailing: const Icon(Icons.arrow_right_sharp),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const CodePage(
+                      title: 'PageC',
+                      child: PageC(),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('PageD'),
+            trailing: const Icon(Icons.arrow_right_sharp),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const CodePage(
+                      title: 'PageD',
+                      child: PageD(),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
